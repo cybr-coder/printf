@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 				str = va_arg(args, char);
 				write(1, &str, 1);
 				str++;
-				count_char++;
+				(*count_char)++;
 			}
 			else if (*format == '%')
 			{
