@@ -9,7 +9,7 @@
 
 int _printf(const char *format, ...)
 {
-	int count_char = 0, len;
+	int count_char = 0;
 	char ch, *str;
 	va_list args;
 
@@ -27,17 +27,12 @@ int _printf(const char *format, ...)
 			if (*format == 'c')
 			{
 				ch = va_arg(args, int);
-				write(1, &ch, 1);
-				count_char++;
+				count_char += print_c(ch);
 			}
 			else if (*format == 's')
 			{
 				str = va_arg(args, char *);
-				len = 0;
-				while (str[len])
-					len++;
-				write(1, str, len);
-				count_char += len;
+				count_char += print_s(str);
 			}
 			else if (*format == '%')
 			{
@@ -54,6 +49,31 @@ int _printf(const char *format, ...)
 	}
 	va_end(args);
 	return (count_char);
-
 }
 
+/**
+ * print_c - prints a character
+ * @c: argument
+ * Return: character
+ */
+
+int print_c(char c)
+{
+	return (write(1, &c, 1));
+}
+
+/**
+ * print_s - prints string
+ * @str: argument
+ * Return: string
+ */
+
+int print_s(char *str)
+{
+	int len = 0;
+
+	while (str[len])
+		len++;
+
+	return (write(1, str, len));
+}
