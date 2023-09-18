@@ -10,41 +10,34 @@
 int _printf(const char *format, ...)
 {
 	int count_char = 0;
-	char ch, *str;
 	va_list args;
 
 	va_start(args, format);
+
 	if (format == NULL)
 		return (-1);
 
 	while (*format)
 	{
-		if (*format == '\0')
-			break;
 		if (*format == '%')
 		{
 			format++; /*Proceed to the character immediately following '%'*/
+			if (*format == '\0')
+				break;
 			if (*format == 'c')
-			{
-				ch = va_arg(args, int);
-				count_char += print_c(ch);
-			}
+				print_c(args, &count_char);
 			else if (*format == 's')
-			{
-				str = va_arg(args, char *);
-				count_char += print_s(str);
-			}
+				print_s(args, &count_char);
 			else if (*format == '%')
+				count_char += _putchar('%');
+			else
 			{
-				write(1, "%", 1);
-				count_char++;
+				count_char += _putchar('%');
+				count_char += _putchar(*format);
 			}
 		}
 		else
-		{
-			write(1, format, 1); /*print characters that are regular*/
-			count_char++;
-		}
+			count_char += _putchar(*format);
 		format++;
 	}
 	va_end(args);
@@ -52,28 +45,45 @@ int _printf(const char *format, ...)
 }
 
 /**
- * print_c - prints a character
- * @c: argument
- * Return: character
+ * _putchar - Writes a character to stdout
+ * @c: The character to write
+ *
+ * Return: 1
  */
 
-int print_c(char c)
+int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 
 /**
- * print_s - prints string
- * @str: argument
- * Return: string
+ * print_c - Handles the format specifier 'c'
+ * @args: The va_list containing arguments
+ * @count_char: pointer to character count_char
  */
 
-int print_s(char *str)
+void print_c(va_list args, int *count_char)
 {
-	int len = 0;
+	char c = va_arg(args, int);
 
-	while (str[len])
-		len++;
+	*count_char += _putchar(c);
+}
 
-	return (write(1, str, len));
+/**
+ * print_s - Handles the format specifier 's'
+ * @args: The va_list containing arguments
+ * @count_char: pointer to character count_char
+ */
+
+void print_s(va_list args, int *count_char)
+{
+	char *str = va_arg(args, char *);
+
+	if (str == NULL)
+		str = "(null)";
+	while (*str)
+	{
+		*count_char += _putchar(*str);
+		str++;
+	}
 }
