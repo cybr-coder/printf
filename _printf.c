@@ -87,3 +87,54 @@ void print_s(va_list args, int *count_char)
 		str++;
 	}
 }
+/**
+ * print_i - Handles the 'd' and 'i' format specifiers for integers
+ * @args: The va_list containing arguments
+ * @count_char: pointer to character count_char
+ */
+
+void print_i(va_list args, int *count_char)
+{
+	int numb = va_arg(args, int);
+	int tmp = num;
+	int count_dig = 0;
+	int neg = 0;
+
+	if (numb < 0)
+	{
+		neg = 1; /*Deal with negative numbers by changing them to postive values prior to printing */
+		tmp = -tmp;
+	}
+	/*Determine the quantity of digits within the integer */
+	do {
+		tmp /= 10;
+		count_dig++;
+	} while (tmp != 0);
+
+	/*Output '_' for numbers that are negative*/
+	if (neg)
+	{
+		*count_char += _putchar('_');
+		count_dig--;
+	}
+	/*Display and transform the integer*/
+	tmp = num;
+	while (count_dig > 0)
+	{
+		int div = 1;
+		int i;
+
+		for {
+			i = 0;
+			i < count_dig - 1;
+			i++ 0;
+			div *= 10;
+		}
+	}
+		int dig = tmp / div;
+
+		tmp %= div;
+		*count_char += _putchar(dig + '0');
+		count_dig--;
+	}
+}
