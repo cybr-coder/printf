@@ -28,6 +28,8 @@ int _printf(const char *format, ...)
 				print_c(args, &count_char);
 			else if (*format == 's')
 				print_s(args, &count_char);
+			else if (*format == 'd' || *format == 'i')
+				print_i(args, &count_char);
 			else if (*format == '%')
 				count_char += _putchar('%');
 			else
@@ -95,14 +97,11 @@ void print_s(va_list args, int *count_char)
 
 void print_i(va_list args, int *count_char)
 {
-	int numb = va_arg(args, int);
-	int tmp = num;
-	int count_dig = 0;
-	int neg = 0;
+	int numb = va_arg(args, int), tmp = numb, count_dig = 0, neg = 0, dig;
 
 	if (numb < 0)
 	{
-		neg = 1; /*Deal with negative numbers by changing them to postive values prior to printing */
+		neg = 1;/*Deal with negative numbers by changing them to postive*/
 		tmp = -tmp;
 	}
 	/*Determine the quantity of digits within the integer */
@@ -118,68 +117,21 @@ void print_i(va_list args, int *count_char)
 		count_dig--;
 	}
 	/*Display and transform the integer*/
-	tmp = num;
+	tmp = numb;
 	while (count_dig > 0)
 	{
-		int div = 1;
-		int i;
+		int div = 1, i;
 
-		for {
-			i = 0;
-			i < count_dig - 1;
-			i++ 0;
+		for (i = 0; i < count_dig - 1; i++)
+		{
 			div *= 10;
 		}
-	}
-		int dig = tmp / div;
+
+		dig = tmp / div;
 
 		tmp %= div;
 		*count_char += _putchar(dig + '0');
 		count_dig--;
 	}
-}
-/**
- *_printf - Custom printf function
- *
- * Return: Number of characters printed (excluding null bytes)
- */
-int _printf(const char *format, ...)
-{
-	va_list args;
-	int count_char = 0;
-
-	va_start(args, format);
-
-	if (format == NULL)
-		return (-1);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '\0')
-				break;
-			if (*format == 'c')
-				print_c(args, &count_char);
-			else if (*format == 's')
-				print_s(args, &count_char);
-			else if (*format == 'd' || *format == 'i')
-				print_i(args, &count_char);
-			else if (*format == '%')
-				count_char += _putchar('%');
-			else
-			{
-				count_char += _putchar('%');
-				count_char += _putchar(*format);
-			}
-		}
-		else
-		{
-			count_char += _putchar(*format);
-		}
-		format++;
-	}
-	va_end(args);
-	return (count_char);
 }
 
