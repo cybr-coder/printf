@@ -30,11 +30,7 @@ int _printf(const char *format, ...)
 			else if (*format == 's')
 				print_s(args, &count_char);
 			else if (*format == 'd' || *format == 'i')
-			{
-				int num = va_arg(args, int);
-
-				print_i(num, &count_char);
-			}
+				print_i(args, &count_char);
 			else if (*format == '%')
 				count_char += _putchar('%');
 			else
@@ -85,48 +81,47 @@ void print_s(va_list args, int *count_char)
 
 /**
  * print_i - Handles the 'd' and 'i' format specifiers for integers
- * @num: Argument
+ * @args: Argument
  * @count_char: pointer to character count char
  */
 
-void print_i(int num, int *count_char)
+void print_i(va_list args, int *count_char)
 {
-	int absolute_value = num;
+	int num = va_arg(args, int);
+	int temp = num;
+	int digit_count = 0;
+	int negative = 0;
+	int i, divisor, digit;
 
 	if (num < 0)
 	{
-		_putchar('-');
-		num = -num;
-		(*count_char)++;
+		negative = 1;
+		temp = -temp;
 	}
 
 	do {
-		absolute_value /= 10;
-		(*count_char)++;
-	} while (absolute_value != 0);
+		temp /= 10;
+		digit_count++;
+	} while (temp != 0);
 
-	print_positive_int(num, count_char);
-}
-
-/**
- * print_positive_int - prints a positive integer
- * @num: the positve integer to be printed
- * @count_char: pointer to character count char
- */
-
-void print_positive_int(int num, int *count_char)
-{
-	int digit, divisor = 1;
-
-	while (divisor <= num / 10)
-		divisor *= 10;
-
-	while (divisor > 0)
+	if (negative)
 	{
-		digit = num / divisor;
-		_putchar('0' + digit);
-		num /= divisor;
-		divisor /= 10;
-		(*count_char)++;
+		*count_char += _putchar('-');
+		digit_count--;
+	}
+
+	temp = num;
+	while (digit_count > 0)
+	{
+		divisor = 1;
+
+		for (i = 0; i < digit_count - 1; i++)
+		{
+			divisor *= 10;
+		}
+		digit = temp / divisor;
+		temp %= divisor;
+		*count_char += _putchar(digit + '0');
+		digit_count--;
 	}
 }
