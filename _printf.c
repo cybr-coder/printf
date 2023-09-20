@@ -30,7 +30,11 @@ int _printf(const char *format, ...)
 			else if (*format == 's')
 				print_s(args, &count_char);
 			else if (*format == 'd' || *format == 'i')
-				print_i(va_arg(args, int));
+			{
+				int num = va_arg(args, int);
+
+				print_i(num, &count_char);
+			}
 			else if (*format == '%')
 				count_char += _putchar('%');
 			else
@@ -82,25 +86,35 @@ void print_s(va_list args, int *count_char)
 /**
  * print_i - Handles the 'd' and 'i' format specifiers for integers
  * @num: Argument
+ * @count_char: pointer to character count char
  */
 
-void print_i(int num)
+void print_i(int num, int *count_char)
 {
+	int absolute_value = num;
+
 	if (num < 0)
 	{
 		_putchar('-');
 		num = -num;
+		(*count_char)++;
 	}
 
-	print_positive_int(num);
+	do {
+		absolute_value /= 10;
+		(*count_char)++;
+	} while (absolute_value != 0);
+
+	print_positive_int(num, count_char);
 }
 
 /**
  * print_positive_int - prints a positive integer
  * @num: the positve integer to be printed
+ * @count_char: pointer to character count char
  */
 
-void print_positive_int(int num)
+void print_positive_int(int num, int *count_char)
 {
 	int digit, divisor = 1;
 
@@ -111,7 +125,8 @@ void print_positive_int(int num)
 	{
 		digit = num / divisor;
 		_putchar('0' + digit);
-		num &= divisor;
+		num /= divisor;
 		divisor /= 10;
+		(*count_char)++;
 	}
 }

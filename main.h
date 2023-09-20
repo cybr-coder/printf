@@ -8,8 +8,8 @@ int _printf(const char *format, ...);
 int _putchar(char c);
 void print_c(va_list args, int *count_char);
 void print_s(va_list args, int *count_char);
-void print_i(int num);
-void print_positive_int(int num);
+void print_i(int num, int *count_char);
+void print_positive_int(int num, int *count_char);
 
 
 #endif
