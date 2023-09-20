@@ -9,14 +9,12 @@
 
 int _printf(const char *format, ...)
 {
-	int temp, count_char = 0;
+	int count_char = 0;
 	va_list args;
 
 	va_start(args, format);
-
 	if (format == NULL)
 		return (-1);
-
 	while (*format)
 	{
 		if (*format == '%')
@@ -36,13 +34,6 @@ int _printf(const char *format, ...)
 				int num = va_arg(args, int);
 
 				print_i(num);
-				count_char += num < 0 ? 1 : 0;
-				temp = (num < 0) ? -num : num;
-				while (temp != 0)
-				{
-					count_char++;
-					temp /= 10;
-				}
 			}
 			else if (*format == '%')
 				count_char += _putchar('%');
