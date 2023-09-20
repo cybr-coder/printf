@@ -30,11 +30,7 @@ int _printf(const char *format, ...)
 			else if (*format == 's')
 				print_s(args, &count_char);
 			else if (*format == 'd' || *format == 'i')
-			{
-				int num = va_arg(args, int);
-
-				print_i(num);
-			}
+				print_i(va_arg(args, int));
 			else if (*format == '%')
 				count_char += _putchar('%');
 			else
