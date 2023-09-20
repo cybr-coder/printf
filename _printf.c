@@ -23,7 +23,10 @@ int _printf(const char *format, ...)
 		{
 			format++; /*Proceed to the character immediately following '%'*/
 			if (*format == '\0')
-				break;
+			{
+				va_end(args);
+				return (-1);
+			}
 			if (*format == 'c')
 				print_c(args, &count_char);
 			else if (*format == 's')
@@ -34,7 +37,7 @@ int _printf(const char *format, ...)
 
 				print_i(num);
 				count_char += num < 0 ? 1 : 0;
-				temp = (num < 0) ? -num : num;	
+				temp = (num < 0) ? -num : num;
 				while (temp != 0)
 				{
 					count_char++;
