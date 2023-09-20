@@ -29,7 +29,12 @@ int _printf(const char *format, ...)
 			else if (*format == 's')
 				print_s(args, &count_char);
 			else if (*format == 'd' || *format == 'i')
-				print_i(args, &count_char);
+			{
+				int num = va_arg(args, int);
+
+				print_i(num);
+				count_char++;
+			}
 			else if (*format == '%')
 				count_char += _putchar('%');
 			else
@@ -91,47 +96,28 @@ void print_s(va_list args, int *count_char)
 }
 /**
  * print_i - Handles the 'd' and 'i' format specifiers for integers
- * @args: The va_list containing arguments
- * @count_char: pointer to character count_char
+ * @num: Argument
  */
 
-void print_i(va_list args, int *count_char)
+void print_i(int num)
 {
-	int numb = va_arg(args, int), tmp = numb, count_dig = 0, neg = 0, dig;
+	int digit, divisor = 1;
 
-	if (numb < 0)
+	if (num < 0)
 	{
-		neg = 1;/*Deal with negative numbers by changing them to postive*/
-		tmp = -tmp;
+		_putchar('-');
+		num = -num;
 	}
-	/*Determine the quantity of digits within the integer */
-	do {
-		tmp /= 10;
-		count_dig++;
-	} while (tmp != 0);
 
-	/*Output '_' for numbers that are negative*/
-	if (neg)
+	while (divisor <= num / 10)
+		divisor *= 10;
+
+	while (divisor > 0)
 	{
-		*count_char += _putchar('_');
-		count_dig--;
-	}
-	/*Display and transform the integer*/
-	tmp = numb;
-	while (count_dig > 0)
-	{
-		int div = 1, i;
-
-		for (i = 0; i < count_dig - 1; i++)
-		{
-			div *= 10;
-		}
-
-		dig = tmp / div;
-
-		tmp %= div;
-		*count_char += _putchar(dig + '0');
-		count_dig--;
+		digit = num / divisor;
+		_putchar('0' + digit);
+		num %= divisor;
+		divisor /= 10;
 	}
 }
 
