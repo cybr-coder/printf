@@ -61,18 +61,6 @@ int _printf(const char *format, ...)
 }
 
 /**
- * _putchar - Writes a character to stdout
- * @c: The character to write
- *
- * Return: 1
- */
-
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-
-/**
  * print_c - Handles the format specifier 'c'
  * @args: The va_list containing arguments
  * @count_char: pointer to character count_char
@@ -103,6 +91,7 @@ void print_s(va_list args, int *count_char)
 		str++;
 	}
 }
+
 /**
  * print_i - Handles the 'd' and 'i' format specifiers for integers
  * @num: Argument
