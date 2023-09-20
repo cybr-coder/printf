@@ -90,13 +90,23 @@ void print_s(va_list args, int *count_char)
 
 void print_i(int num)
 {
-	int digit, divisor = 1;
-
 	if (num < 0)
 	{
 		_putchar('-');
 		num = -num;
 	}
+
+	print_positive_int(num);
+}
+
+/**
+ * print_positive_int - prints a positive integer
+ * @num: the positve integer to be printed
+ */
+
+void print_positive_int(int num)
+{
+	int digit, divisor = 1;
 
 	while (divisor <= num / 10)
 		divisor *= 10;
@@ -105,8 +115,7 @@ void print_i(int num)
 	{
 		digit = num / divisor;
 		_putchar('0' + digit);
-		num %= divisor;
+		num &= divisor;
 		divisor /= 10;
 	}
 }
-
